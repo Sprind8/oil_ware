@@ -1,0 +1,543 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>油料仓库管理系统主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- basic styles -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="assets/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="assets/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="assets/themes/demo.css">
+    <script type="text/javascript" src="js/common/jquery.min.js"></script>
+    <script type="text/javascript" src="js/common/jquery.easyui.min.js"></script>-->
+
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <script src="assets/js/art-template/template-web.js" type="text/javascript" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .td-input {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<style>
+    .icon1{
+        background: url("./assets/avatars/icon1.png") no-repeat center 0;
+        background-size:100% 100%;
+    }
+    .icon{
+        position: relative;
+        top: 7px;
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        background-size:100% 100%;
+    }
+    html,body{
+        height: 100%;
+        overflow: auto;
+    }
+    div{
+        overflow:hidden;
+    }
+    #navbar-container{
+        background-color:#000 ;
+    }
+    .table-header{
+        background-color:#000 ;
+    }
+</style>
+<div class="navbar navbar-default backgroud-banner" id="navbar">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <big style='line-height: 50px'>
+                    <i class="icon icon1" style="display: none"></i>
+                    附油精准管控平台
+                </big>
+            </a>
+            <!-- /.brand -->
+        </div>
+        <!-- /.navbar-header -->
+        <!-- /.navbar-header -->
+    </div>
+    <!-- /.container -->
+</div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- #sidebar-shortcuts -->
+
+            <!-- /.nav-list -->
+            <script type="text/javascript">
+
+                function getUrlParam(name) {
+                    //构造一个含有目标参数的正则表达式对象
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    //匹配目标参数
+                    var r = window.location.search.substr(1).match(reg);
+                    //返回参数值
+                    if (r != null) {
+                        return decodeURI(r[2]);
+                    }
+                    return null;
+                }
+               var oilTypeID = getUrlParam('oilTypeID');
+               var oilType = getUrlParam('oilType');
+               var oilInfos;
+               var oilInfo;
+               var refreshHref = "/oilNameHtml?oilTypeID=" + oilTypeID +"&oilType=" + oilType;
+               console.log(refreshHref);
+               function setOilTypeInfo(){
+                    $('#oilType').attr("value",oilType);
+                    $('#oilTypeID').attr("value",oilTypeID);
+                }
+                // $('#oilType-table2').on('show.bs.modal', function (){
+                //
+                // });
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {
+                }
+            </script>
+        </div>
+        <div class="main-content">
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div style="float: left;">
+
+                                    <button class="btn btn-xs btn-success" value="新增" href="#oilName-table"
+                                            data-toggle="modal" onclick="setOilTypeInfo()">
+                                        <i class="icon-ok bigger-120">新增</i>
+                                    </button>
+                                    <button class="btn btn-xs btn-info" value="返回" onclick="window.location.href = '/oilTypeHtml'">
+                                        <i class="icon-chevron-left bigger-120">返回</i>
+                                    </button>
+                                </div>
+                                <div class="hr hr-18 dotted hr-double"></div>
+
+                                <div class="table-header">
+                                    油料信息管理
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>油料种类</th>
+                                            <th>油料名称</th>
+                                            <th>油料代号</th>
+                                            <th>油料保质期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody id="oilInfo">
+                                        <script id="test" type="text/html">
+                                            {{each oil}}
+                                            <tr>
+                                                <td>{{$value.oilType.oilType}}</td>
+                                                <td>{{$value.oilName}}</td>
+                                                <td>{{$value.oilCode}}</td>
+                                                <td>{{$value.oilGruantee}}</td>
+                                                <td>
+                                                    <a class="red"
+                                                       href="#oilName-table2"
+                                                       onclick="showTable('{{$value.oilID}}')" title="修改本条记录"
+                                                       style='text-decoration:none;'
+                                                       data-toggle="modal">
+                                                        <i class="icon-pencil bigger-130"></i>
+                                                    </a>
+                                                    <a class="blue"
+                                                      href="#"
+                                                       onclick="return oilDelete('{{$value.oilID}}')" title="删除本条记录">
+                                                        <i class="icon-trash bigger-130"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </script>
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        $(function() {
+                                            $.ajax({
+                                                async:false,
+                                                type:"get",
+                                                url:"/oilLook",
+                                                data:{"oilTypeID":oilTypeID},
+                                                dataType:"json",
+                                                success: function (result) {
+                                                    // power = result;
+                                                    console.log(result);
+                                                    oilInfos = result;
+                                                    data = {
+                                                        oil:result
+                                                    };
+                                                    var html = template('test', data);
+                                                    document.getElementById('oilInfo').innerHTML = html;
+                                                }
+                                            })
+                                        });
+                                        //
+                                        // $.get("/oilLook",{"oilTypeID":oilTypeID},function (result) {
+                                        //     console.log(result);
+                                        //     oilInfos = result;
+                                        //     data = {
+                                        //         oil:result
+                                        //     };
+                                        //     var html = template('test', data);
+                                        //     document.getElementById('oilInfo').innerHTML = html;
+                                        // });
+                                        function showTable(a) {
+                                            oilInfo = oilInfos.filter(function (item) {
+                                                return item.oilID == a;
+                                            });
+                                            console.log(oilInfo);
+                                        }
+                                        function oilDelete(a) {
+                                            if(! confirm("确定删除？")){
+                                                return false;
+                                            }
+                                            $.post("/oilDelete",{"oilID":a},function(result){
+                                                alert(result);
+                                                window.location.href = refreshHref;
+                                            });
+                                        }
+
+                                    </script>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        </div>
+                        <form action="/applyin-addapply" id="oilName_from">
+                            <div id="oilName-table" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header no-padding">
+                                            <div class="table-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    <span class="white">&times;</span>
+                                                </button>
+                                                油库信息
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body no-padding">
+                                            <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                                <tr>
+
+                                                    <td>油料种类</td>
+                                                    <th>
+                                                        <input type="text" name="oilType" id="oilType"
+                                                               class="col-xs-10 col-sm-40"  readonly="readonly"/>
+                                                        <input type="hidden" name="oilTypeID" id="oilTypeID"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>油料名称</td>
+                                                    <th>
+                                                        <input type="text" name="oilName" id="oilName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>油料代号</td>
+                                                    <th><input type="text" name="oilCode" id="oilCode"
+                                                               class="col-xs-10 col-sm-40"/></th>
+                                                    <td>保质期</td>
+                                                    <th><input type="text" name="oilGruantee" id="oilGruantee"
+                                                               class="col-xs-10 col-sm-40"/></th>
+                                                </tr>
+
+                                                <script type="text/javascript">
+
+
+                                                </script>
+                                            </table>
+                                        </div>
+
+                                        <div class="modal-footer no-margin-top">
+                                            <button class="btn btn-sm btn-success" type="button">
+                                                <a class="white" href="#" onclick="submit_form()">
+                                                    <i class="icon-ok"></i>
+                                                    添加
+                                                </a>
+                                            </button>
+                                            <script>
+                                                function submit_form() {
+                                                    var data = $("#oilName_from").serialize();
+                                                    $.post("/oilAdd",data,function (result) {
+                                                        alert(result);
+                                                        window.location.href = refreshHref;
+                                                    });
+                                                }
+                                            </script>
+
+                                            <button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+                                                <i class="icon-share-alt"></i> 返回
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- PAGE CONTENT ENDS -->
+                        </form>
+                    <form action="/oilUpdate" id="oilName_from2">
+                        <div id="oilName-table2" class="modal fade" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header no-padding">
+                                        <div class="table-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">
+                                                <span class="white">&times;</span>
+                                            </button>
+                                            油库信息
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body no-padding">
+                                        <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                            <tr>
+
+                                                <td>油料种类</td>
+                                                <th>
+                                                    <input type="text" name="oilType" id="editOilType"
+                                                           class="col-xs-10 col-sm-40"  readonly="readonly"/>
+                                                    <input type="hidden" name="oilTypeID" id="editOilTypeID"
+                                                           class="col-xs-10 col-sm-40"/>
+                                                </th>
+                                                <td>油料名称</td>
+                                                <th>
+                                                    <input type="text" name="oilName" id="editOilName"
+                                                           class="col-xs-10 col-sm-40"/>
+                                                    <input type="hidden" name="oilID" id="editOilID"
+                                                           class="col-xs-10 col-sm-40"/>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>油料代号</td>
+                                                <th><input type="text" name="oilCode" id="editOilCode"
+                                                           class="col-xs-10 col-sm-40"/></th>
+                                                <td>保质期</td>
+                                                <th><input type="text" name="oilGruantee" id="editOilGruantee"
+                                                           class="col-xs-10 col-sm-40"/></th>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="modal-footer no-margin-top">
+                                        <button class="btn btn-sm btn-success" type="button">
+                                            <a class="white" href="#" onclick="submit_form2()">
+                                                <i class="icon-ok"></i>
+                                                添加
+                                            </a>
+                                        </button>
+                                        <script>
+
+                                        </script>
+
+                                        <button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+                                            <i class="icon-share-alt"></i> 返回
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </form>
+                    <script>
+                        $(function () {
+                            $('#oilName-table2').on('show.bs.modal', function (){
+                                $('#editOilType').attr("value",oilType);
+                                $('#editOilTypeID').attr("value",oilTypeID);
+                                $('#editOilName').attr("value",oilInfo[0].oilName);
+                                $('#editOilID').attr("value",oilInfo[0].oilID);
+                                $('#editOilCode').attr("value",oilInfo[0].oilCode);
+                                $('#editOilGruantee').attr("value",oilInfo[0].oilGruantee);
+                            });
+                        });
+                        function submit_form2() {
+                            var data = $("#oilName_from2").serialize();
+                            $.post("/oilUpdate",data,function (result) {
+                                alert(result);
+                                window.location.href = refreshHref;
+                            });
+                        }
+                    </script>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.page-content -->
+        </div>
+        <!-- /.main-content -->
+
+
+        <!-- /#ace-settings-container -->
+    </div>
+    <!-- /.main-container-inner -->
+
+
+</div>
+<!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="assets\js\jquery-2.0.3.min.js"></script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="assets\js\jquery-1.10.2.min.js"></script>
+<![endif]-->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>" + "<" + "script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "script>");
+</script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        var oTable1 = $('#sample-table-2').dataTable({
+            "aoColumns": [{
+                "bSortable": false
+            },
+                null, null, null,
+                {
+                    "bSortable": false
+                }
+            ]
+        });
+
+        $('table th input:checkbox').on('click', function () {
+            var that = this;
+            $(this).closest('table').find('tr > td:first-child input:checkbox')
+                .each(function () {
+                    this.checked = that.checked;
+                    $(this).closest('tr').toggleClass('selected');
+                });
+
+        });
+
+        $('[data-rel="tooltip"]').tooltip({
+            placement: tooltip_placement
+        });
+
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table')
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            var w2 = $source.width();
+
+            if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
+            return 'left';
+        }
+    })
+</script>
+<!--完成分页功能-->
+<script>
+
+</script>
+</body>
+
+
+</html>

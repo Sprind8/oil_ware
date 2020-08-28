@@ -1,0 +1,941 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>油料仓库管理系统主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- basic styles -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="assets/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="assets/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="assets/themes/demo.css">
+    <script type="text/javascript" src="js/common/jquery.min.js"></script>
+    <script type="text/javascript" src="js/common/jquery.easyui.min.js"></script>-->
+
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="assets/js/ace-extra.min.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <script src="assets/js/art-template/template-web.js" type="text/javascript" charset="utf-8"></script>
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .td-input {
+            width: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<style>
+    .icon1{
+        background: url("./assets/avatars/icon1.png") no-repeat center 0;
+        background-size:100% 100%;
+    }
+    .icon{
+        position: relative;
+        top: 7px;
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        background-size:100% 100%;
+    }
+    html,body{
+        height: 100%;
+        overflow: auto;
+    }
+    div{
+        overflow:hidden;
+    }
+    #navbar-container{
+        background-color:#000 ;
+    }
+    .table-header{
+        background-color:#000 ;
+    }
+</style>
+<div class="navbar navbar-default backgroud-banner" id="navbar">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <big style='line-height: 50px'>
+                    <i class="icon icon1" style="display: none"></i>
+                    附油精准管控平台
+                </big>
+            </a>
+            <!-- /.brand -->
+        </div>
+        <!-- /.navbar-header -->
+        <!-- /.navbar-header -->
+    </div>
+    <!-- /.container -->
+</div>
+
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- #sidebar-shortcuts -->
+
+            <ul class="nav nav-list">
+                <li >
+                    <a href="/indexHtml">
+                        <i class="icon-home"></i>
+                        <span class="menu-text"> 主页 </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-desktop" ></i>
+                        <span class="menu-text"> 信息管理 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu "style="display: block">
+
+                        <li>
+                            <a href="/oilTypeHtml">
+                                <i class="icon-double-angle-right"></i>
+                                油料种类管理
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="/groupInfoHtml">
+                                <i class="icon-double-angle-right"></i>
+                                组织关系管理
+                            </a>
+                        </li>
+
+                        <li class="active">
+                            <a href="/warehouseInfoHtml">
+                                <i class="icon-double-angle-right"></i>
+                                油库信息管理
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/powerLookHtml">
+                                <i class="icon-double-angle-right"></i>
+                                权限信息管理
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/userInfoHtml">
+                                <i class="icon-double-angle-right"></i>
+                                用户信息管理
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-desktop" ></i>
+                        <span class="menu-text"> 动态管理 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+
+                        <li>
+                            <a href="/applyHtml">
+                                <i class="icon-double-angle-right"></i>
+                                用油申请
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/manageHtml?pageNum=1">
+                                <i class="icon-double-angle-right"></i>
+                                审核签发
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/distributeHtml?pageNum=1">
+                                <i class="icon-double-angle-right"></i>
+                                油料调拨
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle">
+                        <i class="icon-list"></i>
+                        <span class="menu-text"> 库存管理 </span>
+
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a href="/outStoreHtml">
+                                <i class="icon-double-angle-right"></i>
+                                填写出库申请
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/storeOutHtml">
+                                <i class="icon-double-angle-right"></i>
+                                填写入库申请
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/outStoreDoneHtml">
+                                <i class="icon-double-angle-right"></i>
+                                查看出库记录
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/storeOutDoneHtml">
+                                <i class="icon-double-angle-right"></i>
+                                查看入库记录
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/stockHtml">
+                                <i class="icon-double-angle-right"></i>
+                                查看库存记录
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/checkMainHtml">
+                                <i class="icon-double-angle-right"></i>
+                                盘点库存
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.nav-list -->
+
+            <script type="text/javascript">
+                function getUrlParam(name) {
+                    //构造一个含有目标参数的正则表达式对象
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    //匹配目标参数
+                    var r = window.location.search.substr(1).match(reg);
+                    //返回参数值
+                    if (r != null) {
+                        return decodeURI(r[2]);
+                    }
+                    return null;
+                }
+                var zqName = getUrlParam('zqName');
+                var jtName = getUrlParam('jtName');
+                var ltName = getUrlParam('ltName');
+                console.log(zqName);
+                console.log(jtName);
+                console.log(ltName);
+                var houseInfos;
+                var houseInfo;
+                var searchHref = "/houseCheck?"+"zqName="+zqName+"&jtName="+jtName+"&ltName="+ltName;
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {
+                }
+                function houseDelete(a) {
+                    if(! confirm("确定删除？")){
+                        return false;
+                    }
+                    $.post("/houseDelete",{"wareID":a},function(result){
+                        alert(result);
+                        window.location.href = "/warehouseInfoHtml";
+                    });
+                }
+                function selectZQ() {
+                    var selectZQName = $('.selectZQ').find("option:selected").text();
+                    console.log(selectZQName);
+                    $.ajax({
+                        async:false,
+                        type:"get",
+                        url: "/findJTJ",
+                        data:{zqName: selectZQName},
+                        dataType:"json",
+                        success: function (result) {
+                            console.log(result);
+                            $(".selectJT").html('<option name="jtID" value="0" hidden>选择所属集团军</option>');
+                            for (var i = 0 ; i < result.length; i++){
+                                $(".selectJT").append('<option name="jtID" value="'+result[i].groupID +'">' + result[i].groupName + '</option>')
+                            }
+                        }
+                    })
+                }
+                function selectJT() {
+                    var selectJTName = $('.selectJT').find("option:selected").text();
+                    console.log(selectJTName);
+                    $.ajax({
+                        async:false,
+                        type:"get",
+                        url: "/findLT",
+                        data:{jtName: selectJTName},
+                        dataType:"json",
+                        success: function (result) {
+                            console.log(result);
+                            $(".selectLT").html('<option name="ltID" value="0" hidden>选择所属旅队</option>');
+                            for (var i = 0 ; i < result.length; i++){
+                                $(".selectLT").append('<option name="ltID" value="'+result[i].groupID +'">' + result[i].groupName + '</option>')
+                            }
+                        }
+                    })
+                }
+                function selectZQ1() {
+                    var selectZQName = $('#selectZQ').find("option:selected").text();
+                    console.log(selectZQName);
+                    $.ajax({
+                        async:false,
+                        type:"get",
+                        url: "/findJTJ",
+                        data:{zqName: selectZQName},
+                        dataType:"json",
+                        success: function (result) {
+                            console.log(result);
+                            $("#selectJT").html('<option name="jtID" value="0" hidden>选择所属集团军</option>');
+                            for (var i = 0 ; i < result.length; i++){
+                                $("#selectJT").append('<option name="jtID" value="'+result[i].groupID +'">' + result[i].groupName + '</option>')
+                            }
+                        }
+                    })
+                }
+                function selectJT1() {
+                    var selectJTName = $('#selectJT').find("option:selected").text();
+                    console.log(selectJTName);
+                    $.ajax({
+                        async:false,
+                        type:"get",
+                        url: "/findLT",
+                        data:{jtName: selectJTName},
+                        dataType:"json",
+                        success: function (result) {
+                            console.log(result);
+                            $("#selectLT").html('<option name="ltID" value="0" hidden>选择所属旅队</option>');
+                            for (var i = 0 ; i < result.length; i++){
+                                $("#selectLT").append('<option name="ltID" value="'+result[i].groupID +'">' + result[i].groupName + '</option>')
+                            }
+                        }
+                    })
+                }
+            </script>
+        </div>
+        <div class="main-content">
+            <div class="page-content">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <!-- PAGE CONTENT BEGINS -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div style="float: left;">
+
+                                    <button class="btn btn-xs btn-success" value="新增" href="#warehouse-table"
+                                            data-toggle="modal">
+                                        <i class="icon-ok bigger-120">新增</i>
+                                    </button>
+                                    <button class="btn btn-xs btn-danger" value="删除" title="所有行">
+                                        <i class="icon-trash bigger-120">删除</i>
+                                    </button>
+                                </div>
+                                <div class="hr hr-18 dotted hr-double"></div>
+                                <div class="table-header" style="background-color: #0D47A1">
+                                    用户所属组织下属油库信息查看
+                                </div>
+
+                                <div class="profile-user-info profile-user-info-striped" id="selfWarehousesInfo">
+                                    <script id="test1" type="text/html">
+                                        {{each selfWarehouses}}
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">油库代号</div>
+
+                                            <div class="profile-info-value">
+                                                <span class="editable" id="username">{{$value.wareCode}}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">油库名称</div>
+
+                                            <div class="profile-info-value">
+                                                <i class="fa fa-map-marker light-orange bigger-110"></i>
+                                                <span class="editable" id="country">{{$value.wareName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">所属组织</div>
+
+                                            <div class="profile-info-value">
+                                                <span class="editable" id="age">{{$value.zqName + $value.jtName + $value.ltName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-name">油库所在地</div>
+
+                                            <div class="profile-info-value">
+                                                <span class="editable" id="signup">{{$value.wareShen + $value.wareShi + $value.wareXian}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="hr hr-2 dotted hr-double"></div>
+                                        {{/each}}
+                                    </script>
+                                </div>
+                                <script>
+                                    $.get("/houseShow",function (result) {
+                                        console.log(result);
+                                        data = {
+                                            selfWarehouses: result
+                                        };
+                                        var html = template('test1', data);
+                                        document.getElementById('selfWarehousesInfo').innerHTML = html;
+                                    });
+                                </script>
+
+                                <div class="table-header">
+                                    油库信息搜索
+                                    <div style="display: inline">
+                                        <a class="white"
+                                           href="#houseInfosSearchTable"
+                                           style='text-decoration:none;'
+                                           data-toggle="modal">
+                                            <i class="icon-search bigger-130"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="sample-table-2" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>油库代号</th>
+                                            <th>油库名称</th>
+                                            <th>所属组织名称</th>
+                                            <th>驻地省份</th>
+                                            <th>驻地市区</th>
+                                            <th>驻地县区</th>
+                                            <th>删除申请</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="housesInfo">
+                                        <script id="test" type="text/html">
+                                            {{each houses}}
+                                            <tr>
+                                                <td>{{$value.wareCode}}</td>
+                                                <td>{{$value.wareName}}</td>
+                                                {{if $value.ltName}}
+                                                <td>{{$value.zqName + $value.jtName + $value.ltName}}</td>
+                                                {{/if}}
+                                                {{if !$value.ltName && $value.jtName}}
+                                                <td>{{$value.zqName + $value.jtName}}</td>
+                                                {{/if}}
+                                                {{if !$value.ltName && !$value.jtName && $value.zqName}}
+                                                <td>{{$value.zqName}}</td>
+                                                {{/if}}
+                                                <td>{{$value.wareShen}}</td>
+                                                <td>{{$value.wareShi}}</td>
+                                                <td>{{$value.wareXian}}</td>
+                                                <td>
+                                                    <a class="red"
+                                                       href="#warehouse-table2"
+                                                       onclick="showTable('{{$value.wareID}}')" title="修改本条记录"
+                                                       style='text-decoration:none;'
+                                                       data-toggle="modal">
+                                                        <i class="icon-pencil bigger-130"></i>
+                                                    </a>
+                                                    <a class="blue"
+                                                       href="#"
+                                                       onclick="return houseDelete('{{$value.wareID}}')" title="删除本条记录">
+                                                        <i class="icon-trash bigger-130"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </script>
+                                        </tbody>
+                                    </table>
+                                    <script>
+
+                                        $(function() {
+                                            $.ajax({
+                                                async:false,
+                                                type:"post",
+                                                url:searchHref,
+                                                data:{},
+                                                dataType:"json",
+                                                success: function (result) {
+                                                    console.log(result);
+                                                    houseInfos = result;
+                                                    data = {
+                                                        houses: result
+                                                    };
+                                                    var html = template('test', data);
+                                                    document.getElementById('housesInfo').innerHTML = html;
+                                                }
+                                            })
+                                        });
+                                        // $.get(searchHref,function (result) {
+                                        //    console.log(result);
+                                        //     houseInfos = result;
+                                        //     data = {
+                                        //         houses: result
+                                        //     };
+                                        //     var html = template('test', data);
+                                        //     document.getElementById('housesInfo').innerHTML = html;
+                                        // });
+                                        function showTable(a) {
+                                            houseInfo = houseInfos.filter(function (item) {
+                                                return item.wareID == a;
+                                            });
+                                            console.log(houseInfo);
+                                        }
+                                    </script>
+
+                                </div>
+                            </div>
+                        </div>
+                        <form action="/groupUpdate" id="house_search_form">
+                            <div id="houseInfosSearchTable" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header no-padding">
+                                            <div class="table-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    <span class="white">&times;</span>
+                                                </button>
+                                                油库所在组织搜索
+                                            </div>
+                                        </div>
+                                        <div class="modal-body no-padding">
+                                            <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                                <tr>
+                                                    <td>战区</td>
+                                                    <th><input type="text" name="zqName" id="zqName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>集团军</td>
+                                                    <th>
+                                                        <input type="text" name="jtName" id="jtName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>旅队</td>
+                                                    <th>
+                                                        <input type="text" name="ltName" id="ltName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div class="modal-footer no-margin-top">
+                                            <button class="btn btn-sm btn-success" type="button">
+                                                <a class="white" href="#" onclick="submit_form3()">
+                                                    <i class="icon-ok"></i>
+                                                    确认
+                                                </a>
+                                            </button>
+
+                                            <button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+                                                <i class="icon-share-alt"></i> 返回
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                        </form>
+                        <script>
+                            function submit_form3() {
+                                var data = $("#house_search_form").serialize();
+                                window.location.href = "/warehouseInfoHtml?" + data;
+                            }
+                        </script>
+                        <form action="/houseAdd" id="warehouse_form">
+                            <div id="warehouse-table" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header no-padding">
+                                            <div class="table-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    <span class="white">&times;</span>
+                                                </button>
+                                                油库信息录入
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body no-padding">
+                                            <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                                <tr>
+
+                                                    <td>油库代号</td>
+                                                    <th>
+                                                        <input type="text" name="wareCode" id="wareCode"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>油库名称</td>
+                                                    <th>
+                                                        <input type="text" name="wareName" id="wareName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>所属战区</td>
+                                                    <th>
+                                                        <select class="selectZQ col-xs-10 col-sm-40" onchange="selectZQ()" name="zqID">
+                                                            <option value="0" hidden name="groupID">请选择战区</option>
+                                                            <option value="2" name="zqID">西南区</option>
+                                                            <option value="9" name="zqID">南部区</option>
+                                                            <option value="12" name="zqID">北部区</option>
+                                                            <option value="16" name="zqID">中部区</option>
+                                                            <option value="20" name="zqID">东部区</option>
+                                                        </select>
+                                                    </th>
+                                                    <td>所属集团军</td>
+                                                    <th>
+                                                        <select class="selectJT col-xs-10 col-sm-40" onchange="selectJT()" name="jtID">
+                                                            <option value="0" hidden>请先选择战区</option>
+                                                        </select>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>所属旅队</td>
+                                                    <th>
+                                                        <select class="selectLT col-xs-10 col-sm-40" name="ltID">
+                                                            <option value="0" hidden>请先选择战区</option>
+                                                        </select>
+                                                    </th>
+                                                    <td>驻地省份</td>
+                                                    <th>
+                                                        <input type="text" name="wareShen" id="wareShen"
+                                                               class="col-xs-10 col-sm-40"/></th>
+                                                </tr>
+                                                <tr>
+
+                                                    </th>
+                                                    <td>驻地市区</td>
+                                                    <th>
+                                                        <input type="text" name="wareShi" id="wareShi"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>驻地县区</td>
+                                                    <th>
+                                                        <input type="text" name="wareXian" id="wareXian"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+
+                                                <script type="text/javascript">
+
+
+                                                </script>
+                                            </table>
+                                        </div>
+
+                                        <div class="modal-footer no-margin-top">
+                                            <button class="btn btn-sm btn-success" type="button">
+                                                <a class="white" href="#" onclick="submit_form()">
+                                                    <i class="icon-ok"></i>
+                                                    添加
+                                                </a>
+                                            </button>
+                                            <script>
+                                                function submit_form() {
+                                                    var data = $("#warehouse_form").serialize();
+                                                    $.post("/houseAdd",data,function (result) {
+                                                        alert(result);
+                                                        window.location.href = "/warehouseInfoHtml";
+                                                    });
+                                                }
+                                            </script>
+
+                                            <button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+                                                <i class="icon-share-alt"></i> 返回
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- PAGE CONTENT ENDS -->
+                        </form>
+
+                        <form action="/houseAdd" id="warehouse_form2">
+                            <div id="warehouse-table2" class="modal fade" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header no-padding">
+                                            <div class="table-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                    <span class="white">&times;</span>
+                                                </button>
+                                                油库信息修改
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body no-padding">
+                                            <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                                <tr>
+
+                                                    <td>油库代号</td>
+                                                    <th>
+                                                        <input type="text" name="wareCode" id="editWareCode"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>油库名称</td>
+                                                    <th>
+                                                        <input type="text" name="wareName" id="editWareName"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                        <input type="hidden" name="wareID" id="editWareID"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>所属战区</td>
+                                                    <th>
+                                                        <select id="selectZQ" class="col-xs-10 col-sm-40" onchange="selectZQ1()" name="zqID">
+                                                            <option value="0" hidden name="zqID">请选择战区</option>
+                                                            <option value="2" name="zqID">西南区</option>
+                                                            <option value="9" name="zqID">南部区</option>
+                                                            <option value="12" name="zqID">北部区</option>
+                                                            <option value="16" name="zqID">中部区</option>
+                                                            <option value="20" name="zqID">东部区</option>
+                                                        </select>
+                                                    </th>
+                                                    <td>所属集团军</td>
+                                                    <th>
+                                                        <select id="selectJT" class="col-xs-10 col-sm-40" onchange="selectJT1()" name="jtID">
+                                                            <option value="0" hidden>请先选择战区</option>
+                                                        </select>
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>所属旅队</td>
+                                                    <th>
+                                                        <select id="selectLT" class="col-xs-10 col-sm-40" name="ltID">
+                                                            <option value="0" hidden>请先选择战区</option>
+                                                        </select>
+                                                    </th>
+                                                    <td>驻地省份</td>
+                                                    <th>
+                                                        <input type="text" name="wareShen" id="editWareShen"
+                                                               class="col-xs-10 col-sm-40"/></th>
+                                                </tr>
+                                                <tr>
+
+                                                    </th>
+                                                    <td>驻地市区</td>
+                                                    <th>
+                                                        <input type="text" name="wareShi" id="editWareShi"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                    <td>驻地县区</td>
+                                                    <th>
+                                                        <input type="text" name="wareXian" id="editWareXian"
+                                                               class="col-xs-10 col-sm-40"/>
+                                                    </th>
+                                                </tr>
+
+                                                <script type="text/javascript">
+
+
+                                                </script>
+                                            </table>
+                                        </div>
+
+                                        <div class="modal-footer no-margin-top">
+                                            <button class="btn btn-sm btn-success" type="button">
+                                                <a class="white" href="#" onclick="submit_form2()">
+                                                    <i class="icon-ok"></i>
+                                                    添加
+                                                </a>
+                                            </button>
+                                            <script>
+                                                $(function () {
+                                                    $('#warehouse-table2').on('show.bs.modal', function (){
+                                                        $('#editWareCode').attr("value",houseInfo[0].wareCode);
+                                                        $('#editWareName').attr("value",houseInfo[0].wareName);
+                                                        $('#editWareShen').attr("value",houseInfo[0].wareShen);
+                                                        $('#editWareShi').attr("value",houseInfo[0].wareShi);
+                                                        $('#editWareXian').attr("value",houseInfo[0].wareXian);
+                                                        $('#editWareID').attr("value",houseInfo[0].wareID);
+
+                                                    });
+                                                });
+                                                function submit_form2() {
+                                                    var data = $("#warehouse_form2").serialize();
+                                                    $.post("/houseUpdate",data,function (result) {
+                                                        alert(result);
+                                                        window.location.href = "/warehouseInfoHtml";
+                                                    });
+                                                }
+                                            </script>
+
+                                            <button class="btn btn-sm btn-success pull-right" data-dismiss="modal">
+                                                <i class="icon-share-alt"></i> 返回
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- PAGE CONTENT ENDS -->
+                        </form>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.page-content -->
+        </div>
+        <!-- /.main-content -->
+
+
+        <!-- /#ace-settings-container -->
+    </div>
+    <!-- /.main-container-inner -->
+
+
+</div>
+<!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<!-- <![endif]-->
+<!--[if IE]>
+<![endif]-->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>" + "<" + "script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "script>");
+</script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<script src="assets/js/jquery.dataTables.min.js"></script>
+<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+
+<!-- ace scripts -->
+
+<script src="assets/js/ace-elements.min.js"></script>
+<script src="assets/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    jQuery(function ($) {
+        var oTable1 = $('#sample-table-2').dataTable({
+            "aoColumns": [{
+                "bSortable": false
+            },
+                null, null, null, null, null,
+                {
+                    "bSortable": false
+                }
+            ]
+        });
+
+        $('table th input:checkbox').on('click', function () {
+            var that = this;
+            $(this).closest('table').find('tr > td:first-child input:checkbox')
+                .each(function () {
+                    this.checked = that.checked;
+                    $(this).closest('tr').toggleClass('selected');
+                });
+
+        });
+
+        $('[data-rel="tooltip"]').tooltip({
+            placement: tooltip_placement
+        });
+
+        function tooltip_placement(context, source) {
+            var $source = $(source);
+            var $parent = $source.closest('table')
+            var off1 = $parent.offset();
+            var w1 = $parent.width();
+
+            var off2 = $source.offset();
+            var w2 = $source.width();
+
+            if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
+            return 'left';
+        }
+    })
+</script>
+<!--完成分页功能-->
+<script>
+
+</script>
+</body>
+
+
+</html>

@@ -1,0 +1,1507 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>油料仓库管理系统主页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- basic styles -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+
+	<!-- page specific plugin styles -->
+
+
+	<!-- fonts
+
+    <link rel="stylesheet" href="assets\css\cyrillic.css" />
+-->
+	<!-- ace styles -->
+
+	<link rel="stylesheet" href="assets/css/ace.min.css" />
+	<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+
+	<!--[if lte IE 8]>
+	<link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+	<![endif]-->
+
+	<!-- inline styles related to this page -->
+
+	<!-- ace settings handler -->
+
+	<script src="assets/js/ace-extra.min.js"></script>
+	<script src="assets/js/echarts.js"></script>
+	<script src="assets/js/echarts.min.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+
+
+	<!--[if !IE]> -->
+
+	<script src="assets/js/jquery-2.0.3.min.js"></script>l
+
+	<!-- <![endif]-->
+	<script src="assets/js/art-template/template-web.js" type="text/javascript" charset="utf-8"></script>
+	<!--[if IE]>
+	<script src="assets\js\jquery-1.10.2.min.js"></script>
+	<![endif]-->
+
+
+	<script type="text/javascript">
+		if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
+	</script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script src="assets/js/typeahead-bs2.min.js"></script>
+
+	<!-- ace scripts -->
+
+	<script src="assets/js/ace-elements.min.js"></script>
+	<script src="assets/js/ace.min.js"></script>
+
+	<!-- inline scripts related to this page -->
+
+
+
+	<![endif]-->
+	<style>
+		.bg_new{
+			background: url("assets/avatars/jw_green.gif") no-repeat center;
+			background-size:100% 100%;
+			min-width: 1400px;
+			min-height:100%;
+			padding-top:5%;
+			padding-left:20px;
+			padding-right:10px;
+			overflow: hidden;
+		}
+		html,body{
+			height: 100%;
+			overflow: auto;
+		}
+		div{
+			overflow:hidden;
+		}
+		.bg2{
+			background: url("./assets/avatars/bg1.png") no-repeat center 0;
+			background-size:100% 100%;
+			margin:0 4%;
+			min-height: 200px;
+		}
+		.mg{
+			margin:2% 0;
+		}
+		p{
+			margin:0;
+			padding:0;
+			line-height:24px;
+			font-size:18px;
+			font-family: "微软雅黑";
+			color:#d1e1d0;
+			text-align:center;
+		}
+		p.a{
+			line-height:12px;
+			font-size:14px;
+		}
+		a:hover{
+			text-decoration: none;
+		}
+		button:focus{
+			background-color:#87b87f;
+		}
+	</style>
+</head>
+
+<body >
+
+<div class="main-container bg_new" id="main-container">
+	<script type="text/javascript">
+		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+        var applyInfos;
+        var applyInfo;
+        $.ajax({
+            async:false,
+            type:"post",
+            url: "/getSession",
+            data:{},
+            dataType:"json",
+            success: function (result) {
+                console.log(result);
+                thisUserName = result.userName;
+                thisUserID = result.userID;
+            }
+        });
+	</script>
+
+	<div class="main-container-inner">
+		<div class="row mg">
+
+			<div class="col-xs-11 bg2">
+				<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+				<p id="barChart">陆X附油动态库存量(大类)</p>
+				<div id="main2" style="width:95%;height:300px;margin-left: 30px;padding-top:20px;float:left;display: block"></div>
+				<div id="main2_1" style="width:95%;height:300px;margin-left: 30px;padding-top:20px;float:left;display: none"></div>
+				<div id="main2_2" style="width:95%;height:300px;margin-left: 30px;padding-top:20px;float:left;display: none"></div>
+				<div id="main2_3" style="width:95%;height:300px;margin-left: 30px;padding-top:20px;float:left;display: none"></div>
+				<script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var barChart = echarts.init(document.getElementById('main2'));
+                    var barChart1 = echarts.init(document.getElementById('main2_1'));
+                    var barChart2 = echarts.init(document.getElementById('main2_2'));
+                    var barChart3 = echarts.init(document.getElementById('main2_3'));
+                    // 指定图表的配置项和数据
+                    option = {
+                        title: {
+                            text: '单位（公斤）',
+                            textStyle: {//副标题文本样式{"color": "#aaa"}
+                                fontFamily: 'Arial, Verdana, 微软雅黑',
+                                fontSize: 16,
+                                color: '#ddd',
+                                fontStyle: 'normal',
+                                fontWeight: 'normal'
+                            }
+                        },
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataView: {show: true, readOnly: false},
+                                magicType: {show: true, type: ['line', 'bar']},
+                                restore: {show: true},
+                                saveAsImage: {show: true}
+                            }
+                        },
+                        calculable: true,
+                        grid: {
+                            top: '10%',
+                            left: '2%',
+                            bottom: '5%',
+                            right: 0,
+                            containLabel: true
+                        },
+                        xAxis: [
+                            {
+                                type: 'category',
+                                data: [],
+                                axisLabel: {
+                                    interval: 0
+                                },
+                                axisLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#ddd'
+                                    }
+                                },
+                                axisLabel: {
+                                    textStyle: { //数值样式
+                                        color: '#ddd',
+                                        fontSize: 12
+                                    },
+                                    formatter: function (val) {
+                                        var strs = val.split(' '); //字符串数组
+                                        var str = '';
+                                        for (var i = 0, s; s = strs[i++];) { //遍历字符串数组
+                                            str += s;
+                                            if (!(i % 2)) str += '\n'; //按需要求余
+                                        }
+                                        return str
+                                    }
+                                }
+                            }
+                        ],
+                        yAxis: [{
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#ddd'
+                                }
+                            },
+                            axisLabel: {
+                                interval: 0,
+                                rotate: 45
+                            }
+                        }
+                        ],
+                        series: [
+                            {
+                                name: '存量',
+                                type: 'bar',
+                                data: [],
+                                itemStyle: {
+                                    normal: {
+                                        color: '#3f91ff',
+                                        label: {
+                                            show: true, //开启显示
+                                            position: 'top', //在上方显示
+                                            formatter: "{b}\n{c}",
+                                            textStyle: { //数值样式
+                                                color: '#ddd',
+                                                fontSize: 10
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    barChart.setOption(option);
+                    barChart.showLoading();
+                    barChart1.setOption(option);
+                    barChart1.showLoading();
+                    barChart2.setOption(option);
+                    barChart2.showLoading(); //数据加载完之前先显示一段简单的loading动画
+                    barChart3.setOption(option);
+                    barChart3.showLoading();
+                    //类别数组（实际用来盛放X轴坐标值）
+                    barChart.on('click', function (a) {
+                       oilData1 = [];
+                       names1 = [];
+                        console.log(a.data.oilTypeID);
+                        if(a.data.oilTypeID){
+                            $.ajax({
+                                type: "post",
+                                async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                                url: "/stockColumn",    //
+                                data: {oilTypeID:a.data.oilTypeID},
+                                dataType: "json",        //返回数据形式为json
+                                success: function (result) {
+                                    console.log(result);
+                                    //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                    if (result) {
+                                        for (var i = 0; i < result.length; i++) {
+                                            names1.push(result[i].oilName);    //挨个取出类别并填入类别数组
+                                            //挨个取出销量并填入销量数组
+                                            // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                            oilData1.push({
+                                                name: result[i].oilName,
+                                                oilID: result[i].oilID,
+                                                value: result[i].stockNumber
+                                            });
+                                            res += parseInt(result[i].stockNumber);
+                                        }
+                                        barChart.hideLoading();    //隐藏加载动画
+                                        barChart.setOption({        //加载数据图表
+                                            xAxis: {
+                                                data: names1
+                                            },
+                                            series: [{
+                                                // 根据名字对应到相应的系列
+                                                name: '库存数量',
+                                                data: oilData1
+                                            }]
+                                        });
+                                    }
+
+                                },
+                                error: function (errorMsg) {
+                                    //请求失败时执行该函数
+                                    alert("图表请求数据失败!");
+                                    barChart.hideLoading();
+                                }
+                            });
+						}else {
+                            alert("已至最后一层")
+						}
+
+                    });
+                    var oilData1 = [];
+                    var names1 = [];//销量数组（实际用来盛放Y坐标值）
+                    var oilData2 = [];
+                    var names2 = [];//销量数组（实际用来盛放Y坐标值）
+                    var res = 0;
+                    $.ajax({
+                        type: "post",
+                        async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                        url: "/stockColumn",    //
+                        data: {},
+                        dataType: "json",        //返回数据形式为json
+                        success: function (result) {
+                            console.log(result);
+                            //请求成功时执行该函数内容，result即为服务器返回的json对象
+                            if (result) {
+                                for (var i = 0; i < result.length; i++) {
+                                    names1.push(result[i].oilType);    //挨个取出类别并填入类别数组
+                                    //挨个取出销量并填入销量数组
+                                    // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                    oilData1.push({
+										name: result[i].oilType,
+										oilTypeID: result[i].oilTypeID,
+										value: result[i].stockNumber
+                                    });
+                                    res += parseInt(result[i].stockNumber);
+                                }
+                                barChart.hideLoading();    //隐藏加载动画
+                                barChart.setOption({        //加载数据图表
+                                    xAxis: {
+                                        data: names1
+                                    },
+                                    series: [{
+                                        // 根据名字对应到相应的系列
+                                        name: '库存数量',
+                                        data: oilData1
+                                    }]
+                                });
+                            }
+
+                        },
+                        error: function (errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                            barChart.hideLoading();
+                        }
+                    });
+                    window.onresize = function () {
+                        lineChart.resize();
+                        barChart.resize();
+                        barChart1.resize();
+                        pieChart1.resize();
+                    };
+
+                    /*
+
+						xAxis : [
+								{
+									type : 'category',
+									data:[
+										'附油1',
+										'附油2',
+										'附油3',
+										'附油4',
+										'附油5',
+										'附油6',
+										'附油7',
+										'附油8',
+										'附油9',
+										'附油10',
+										'附油11',
+										'附油12',
+										'附油13',
+										'附油14',
+										'附油15',
+										'附油16',
+										'附油17',
+										'附油18',
+										'附油19',
+										'附油20',
+										'附油21',
+										'附油22',
+										'附油23',
+										'附油24',
+										'附油25',
+										'附油26',
+										'附油27',
+										'附油28',
+										'附油29',
+										'附油30',
+										'附油31',
+										'附油32'
+									],
+									axisLabel:{
+										interval:0
+									},
+									axisLine: {
+										show: true,
+										lineStyle: {
+											color: '#ddd'
+										}
+									},
+									axisLabel:{
+										textStyle: { //数值样式
+											color: '#ddd',
+											fontSize: 12
+										},
+										formatter: function(val) {
+											var strs = val.split(''); //字符串数组
+											var str = ''
+											for(var i = 0, s; s = strs[i++];) { //遍历字符串数组
+												str += s;
+												if(!(i % 2)) str += '\n'; //按需要求余
+											}
+											return str
+										}
+									}
+								}
+							],
+							yAxis : [{
+								splitLine:{
+									show: false
+								},
+								axisLine: {
+									show: true,
+									lineStyle: {
+										color: '#ddd'
+									}
+								},
+								axisLabel: {
+									interval: 0,
+									rotate: 45
+								}
+							}
+							],
+							series : [
+								{
+									name:'存量',
+									type:'bar',
+									data:[190, 320, 150, 36, 128, 170.7, 175.6, 182.2,190, 320, 150, 36, 128, 170.7, 175.6, 182.2,190, 320, 150, 36, 128, 170.7, 175.6, 182.2,190, 320, 150, 36, 128, 170.7, 175.6, 182.2],
+									itemStyle: {
+										normal: {
+											color:'#3f91ff',
+											label: {
+												show: true, //开启显示
+												position: 'top', //在上方显示
+												formatter:'{b}\n{c}',
+												textStyle: { //数值样式
+													color: '#ddd',
+													fontSize: 10
+												}
+											}
+										}
+									}
+								}
+							]
+						};
+						 */
+
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    barChart.setOption(option);
+                    // myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+                    // //类别数组（实际用来盛放X轴坐标值）
+                    // myChart.on('click',function(a){
+                    // 	console.log(a)
+                    // });
+                    // let oilData=[];
+                    // let names = [];//销量数组（实际用来盛放Y坐标值）
+                    // let res = 0;
+                    // $.ajax({
+                    // 	type : "post",
+                    // 	async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    // 	url : "/chart/status",    //
+                    // 	data : {},
+                    // 	dataType : "json",        //返回数据形式为json
+                    // 	success : function(result) {
+                    // 		console.log(result)
+                    // 		//请求成功时执行该函数内容，result即为服务器返回的json对象
+                    // 		if (result) {
+                    // 			for(var i=0;i<result.length;i++){
+                    // 				names.push(result[i].date);    //挨个取出类别并填入类别数组
+                    // 				//挨个取出销量并填入销量数组
+                    // 				oilData.push({
+                    // 					name:result[i].date,
+                    // 					value:result[i].size
+                    // 				})
+                    // 				res +=parseInt(result[i].size);
+                    // 			}
+                    // 			myChart.hideLoading();    //隐藏加载动画
+                    // 			myChart.setOption({        //加载数据图表
+                    // 				legend: {
+                    // 					data: names
+                    // 				},
+                    // 				series: [{
+                    // 					// 根据名字对应到相应的系列
+                    // 					name: '库存数量',
+                    // 					data: oilData
+                    // 				}]
+                    // 			});
+                    // 		}
+                    // 		$('#test').text('全军总库存量为：'+res+'公斤')
+                    // 	},
+                    // 	error : function(errorMsg) {
+                    // 		//请求失败时执行该函数
+                    // 		alert("图表请求数据失败!");
+                    // 		myChart.hideLoading();
+                    // 	}
+                    // });
+				</script>
+			</div><!-- /.main-content -->
+
+
+			<div class="col-xs-6 bg2" style="width:58%; margin-right:0">
+				<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+				<p id="lineChart">各X区上一年度消耗</p>
+				<div id="main" style="width:92%;height:260px;margin-left: 30px;padding-top:10px;float:left"></div>
+				<script type="text/javascript">
+                    //基于准备好的dom，初始化echarts实例
+                    var lineChart = echarts.init(document.getElementById('main'));
+                    // 指定图表的配置项和数据
+                    option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            confine: true
+                        },
+                        legend: {
+                            textStyle: {//副标题文本样式{"color": "#aaa"}
+                                fontFamily: 'Arial, Verdana, 微软雅黑',
+                                fontSize: 16,
+                                color: '#ddd',
+                                fontStyle: 'normal',
+                                fontWeight: 'normal'
+
+                            },
+                            selected: {
+                                '战1': true,
+                                '战2': true,
+                                '战3': true,
+                                '战4': false,
+                                '战5': false,
+                                '战6': false,
+                                '战7': false,
+                                '战8': false
+                            },
+                            data: ['战1', '战2', '战3', '战4', '战5', '战6', '战7', '战8']
+                        },
+                        grid: {
+                            left: 0,
+                            right: '2%',
+                            top: '10%',
+                            bottom: 0,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                            axisLine: {
+                                show: true,
+                                lineStyle: {
+                                    color: '#ccc'
+                                }
+                            },
+                            axisLabel: {
+                                textStyle: { //数值样式
+                                    color: '#ddd',
+                                    fontSize: 13
+                                },
+                            }
+                        },
+                        yAxis: [
+
+                            {
+                                min: 'dataMin',
+                                splitLine: {
+                                    show: false
+                                },
+                                type: 'value',
+                                axisLine: {
+                                    show: true,
+                                    lineStyle: {
+                                        color: '#ddd'
+                                    }
+                                },
+                                axisLabel: {
+                                    textStyle: { //数值样式
+                                        color: '#ddd',
+                                        fontSize: 14
+                                    }
+                                }
+                            }
+                        ],
+
+                        series: [
+                            {
+                                name: '战1',
+                                type: 'line',
+                                symbolSize: 8,//拐点大小
+                                lineStyle: {
+                                    normal: {
+                                        width: 3
+                                    }
+                                },
+                                data: [10, 20, 21, 30, 28, 60, 80, 74, 90, 40, 30, 18]
+                            },
+                            {
+                                name: '战2',
+                                type: 'line',
+                                symbolSize: 8,//拐点大小
+                                lineStyle: {
+                                    normal: {
+                                        width: 3
+                                    }
+                                },
+                                data: [12, 22, 23, 33, 22, 55, 77, 66, 88, 33, 22, 11]
+                            },
+                            {
+                                name: '战3',
+                                type: 'line',
+                                symbolSize: 8,//拐点大小
+                                lineStyle: {
+                                    normal: {
+                                        width: 3
+                                    }
+                                },
+                                data: [15, 25, 35, 43, 53, 63, 73, 75, 83, 63, 32, 15]
+                            },
+                            {
+                                name: '战4',
+                                type: 'line',
+                                symbolSize: 8,//拐点大小
+                                lineStyle: {
+                                    normal: {
+                                        width: 3
+                                    }
+                                },
+                                data: [14, 24, 34, 44, 54, 64, 74, 84, 104, 22, 89, 18]
+                            },
+                            {
+                                name: '战5',
+                                type: 'line',
+                                symbolSize: 8,//拐点大小
+                                lineStyle: {
+                                    normal: {
+                                        width: 3
+                                    }
+                                },
+                                data: [19, 29, 39, 49, 59, 69, 79, 99, 109, 55, 33, 48]
+                            },
+                        ]
+                    };
+
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    lineChart.setOption(option);
+                    // myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+                    //类别数组（实际用来盛放X轴坐标值）
+                    // myChart.on('click',function(a){
+                    // 	console.log(a)
+                    // });
+                    // let oilData=[];
+                    // let names = [];//销量数组（实际用来盛放Y坐标值）
+                    // let res = 0;
+                    // $.ajax({
+                    // 	type : "post",
+                    // 	async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    // 	url : "/chart/status",    //
+                    // 	data : {},
+                    // 	dataType : "json",        //返回数据形式为json
+                    // 	success : function(result) {
+                    // 		console.log(result)
+                    // 		//请求成功时执行该函数内容，result即为服务器返回的json对象
+                    // 		if (result) {
+                    // 			for(var i=0;i<result.length;i++){
+                    // 				names.push(result[i].date);    //挨个取出类别并填入类别数组
+                    // 				//挨个取出销量并填入销量数组
+                    // 				oilData.push({
+                    // 					name:result[i].date,
+                    // 					value:result[i].size
+                    // 				})
+                    // 				res +=parseInt(result[i].size);
+                    // 			}
+                    // 			myChart.hideLoading();    //隐藏加载动画
+                    // 			myChart.setOption({        //加载数据图表
+                    // 				legend: {
+                    // 					data: names
+                    // 				},
+                    // 				series: [{
+                    // 					// 根据名字对应到相应的系列
+                    // 					name: '库存数量',
+                    // 					data: oilData
+                    // 				}]
+                    // 			});
+                    // 		}
+                    // 		$('#test').text('总库存量为：'+res+'公斤')
+                    // 	},
+                    // 	error : function(errorMsg) {
+                    // 		//请求失败时执行该函数
+                    // 		alert("图表请求数据失败!");
+                    // 		myChart.hideLoading();
+                    // 	}
+                    // });
+				</script>
+			</div><!-- /.main-content -->
+
+			<div class="col-xs-4 bg2" style=" margin-left:0">
+				<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+				<p id="pieChart">各X区附油总存量</p>
+				<div id="main1" style="width:95%;height:260px;margin-left: 30px;padding-top:20px;float:left"></div>
+
+				<script type="text/javascript">
+                    // 基于准备好的dom，初始化echarts实例
+                    var pieChart1 = echarts.init(document.getElementById('main1'));
+                    // 指定图表的配置项和数据
+                    option = {
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c}" + "公斤"
+                        },
+                        grid: {
+                            left: 0,
+                            top: '10%',
+                            bottom: 0,
+                            containLabel: true
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            x: 'left',
+                            textStyle: {
+                                fontSize: 12,//字体大小
+                                color: '#ffffff',//字体颜色
+                                fontFamily: '微软雅黑'
+
+                            },
+                            data: []
+                        },
+                        series: [
+                            {
+                                name: '附油存量',
+                                type: 'pie',
+                                radius: ['20%', '70%'],
+                                center: ['60%', '45%'],
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            show: true,
+                                            formatter: "{b}\n{c}" + "公斤"
+                                        },
+                                        labelLine: {
+                                            show: true
+                                        }
+
+                                    }
+                                },
+                                data: []
+                            }
+                        ]
+                    };
+
+                    // 使用刚指定的配置项和数据显示图表。
+                    pieChart1.setOption(option);
+                    pieChart1.showLoading();    //数据加载完之前先显示一段简单的loading动画
+                    var oilData = [];
+                    var names = [];//销量数组（实际用来盛放Y坐标值）
+                    var res = 0;
+                    $.ajax({
+                        type: "post",
+                        async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                        url: "/stockPie",    //
+                        data: {},
+                        dataType: "json",        //返回数据形式为json
+                        success: function (result) {
+                            console.log(result);
+                            //请求成功时执行该函数内容，result即为服务器返回的json对象
+                            if (result) {
+                                for (var i = 0; i < result.length; i++) {
+                                    names.push(result[i].groupName);    //挨个取出类别并填入类别数组
+                                    //挨个取出销量并填入销量数组
+                                    // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                    oilData.push({
+                                        name: result[i].groupName,
+                                        value: result[i].groupTotal,
+										nature: result[i].groupNature
+                                    })
+                                    res += parseInt(result[i].groupTotal);
+                                }
+                                pieChart1.hideLoading();    //隐藏加载动画
+                                pieChart1.setOption({        //加载数据图表
+                                    legend: {
+                                        data: names
+                                    },
+                                    series: [{
+                                        // 根据名字对应到相应的系列
+                                        name: '库存数量',
+                                        data: oilData
+                                    }]
+                                });
+                            }
+
+                        },
+                        error: function (errorMsg) {
+                            //请求失败时执行该函数
+                            alert("图表请求数据失败!");
+                            pieChart1.hideLoading();
+                        }
+                    });
+                    window.onresize = function () {
+                        lineChart.resize();
+                        barChart.resize();
+                        barChart1.resize();
+                        pieChart1.resize();
+                    }
+				</script>
+			</div><!-- /.main-content -->
+		</div>
+
+		<div class="row mg">
+
+			<div class="col-xs-11 bg2">
+				<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+				<p>待审批基层附油申请</p>
+				<style>
+					.div_table{
+						width:92%;
+						margin:2% auto 1%;
+						background: #c0c0c0;
+					}
+					.table-title{
+						margin:0 auto;
+					}
+					.table-title span{
+						display:block;
+						float:left;
+						font-size: 16px;
+						font-weight: bold;
+						font-family: "微软雅黑";
+						width:11%;
+						height:30px;
+						line-height: 30px;
+						border:1px solid #999;
+						border-left:none;
+						text-align: center;
+					}
+					ul{
+						margin:0;
+						padding:0;
+						list-style: none;
+					}
+					ul li span{
+						display:block;
+						float:left;
+						font-size: 14px;
+						font-family: "Apple LiGothic Medium ";
+						width:11%;
+						height:30px;
+						line-height: 30px;
+						border:1px solid #999;
+						border-left:none;
+						border-top:none;
+						text-align: center;
+					}
+				</style>
+				<div class ="div_table">
+					<div class="table-title">
+						<span class="span-title">申请用户</span>
+						<span class="span-title">申请油库</span>
+						<span class="span-title">申请油料名称</span>
+						<span class="span-title">申请油料代号</span>
+						<span class="span-title">申请数量</span>
+						<span class="span-title">申请时间</span>
+						<span class="span-title">需求原因</span>
+						<span class="span-title">审核操作</span>
+						<span class="span-title">添加详情</span>
+					</div>
+					<ul id="applyInfos">
+						<script id="test" type="text/html">
+							{{each applys}}
+							<li >
+								<span class="span-content">{{$value.userName}}</span>
+								<span class="span-content">{{$value.wareName}}</span>
+								<span class="span-content">{{$value.oilName}}</span>
+								<span class="span-content">{{$value.oilCode}}</span>
+								<span class="span-content">{{$value.appNumber}}公斤</span>
+								<span class="span-content">{{$value.appDate}}</span>
+								<span class="span-content">
+									 <div style="overflow: hidden;text-overflow: ellipsis; white-space: nowrap" title="{{$value.appReason}}">{{$value.appReason}}</div>
+								</span>
+								<span>
+									<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+										<a class="blue" onclick="return pass('{{$value.appID}}')" title="同意">
+											<i class="icon-ok bigger-130"></i>
+										</a>
+
+										<a class="blue" onclick="return fail('{{$value.appID}}')" title="拒绝">
+											<i class="icon-remove bigger-130"></i>
+										</a>
+									</div>
+								</span>
+								<span>
+									<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+										<button type="button" class="btn btn-success" style="padding:0;font-size:12px;width:90%;border-radius: 3px;border-width: 3px;" onclick="jumpTo()">附油调拨</button>
+									</div>
+								</span>
+							</li>
+							{{/each}}
+						</script>
+					</ul>
+
+					<script type="text/javascript">
+                        $(function() {
+                            $.ajax({
+                                async:false,
+                                type:"get",
+                                url: "/applyNeedManage",
+                                data:{pageNum: 1},
+                                dataType:"json",
+                                success: function (result) {
+                                    applyInfos = result;
+                                    console.log(result);
+                                    data = {
+                                        applys: result
+                                    };
+                                    console.log(data);
+                                    var html = template('test', data);
+                                    document.getElementById('applyInfos').innerHTML = html;
+                                }
+                            })
+                        });
+                        function pass(a){
+                            if(! confirm("批准此条申请？")){
+                                return false;
+                            }
+
+                            $.post("/ManageAdd",{appID: a, userID :thisUserID, manageState:1 },function (result) {
+                                alert(result);
+                                window.location.href = "/indexHtml";
+                            });
+                        }
+
+                        function fail(a){
+                            if(! confirm("驳回此条申请？")){
+                                return false;
+                            }
+                            $.post("/ManageAdd",{appID: a, userID :thisUserID, manageState:2},function (result) {
+                                alert(result);
+                                window.location.href = "/indexHtml";
+                            });
+                        }
+
+						function jumpTo(){
+							window.location.href = "/manageHtml?pageNum=1"
+						}
+						function jumpToUserInfo(){
+							window.location.href = "/userInfoHtml"
+						}
+					</script>
+				</div>
+				<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+					<button type="button" class="btn btn-success" style="padding:0;font-size:12px;width:100%;border-radius: 3px;border-width: 3px;" onclick="jumpToUserInfo()">进入系统</button>
+				</div>
+			</div><!-- /.main-content -->
+			<!-- /.main-content -->
+
+		</div><!-- /.col -->
+		<script>
+			var flagPie=false;
+			var flagBar=false;
+			var natureName;
+			pieChart1.on('click',function(a){
+
+
+                barChart2.resize();
+                oilData = [];
+                names = [];//销量数组（实际用来盛放Y坐标值）
+                res = 0;
+                oilData1 = [];
+                names1 = [];
+                oilData2 = [];
+                names2 = [];
+                console.log(a);
+                console.log(a.data.name);
+                natureName = a.data.name;
+               if(a.data.nature == 3){
+                   $("#main2").hide();
+                   $("#main2_1").show();
+                   barChart1.resize();
+                   $.ajax({
+                       type: "post",
+                       async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                       url: "/stockColumn",    //
+                       data: {zqName:a.data.name},
+                       dataType: "json",        //返回数据形式为json
+                       success: function (result) {
+                           console.log(result);
+                           //请求成功时执行该函数内容，result即为服务器返回的json对象
+                           if (result) {
+                               for (var i = 0; i < result.length; i++) {
+                                   names1.push(result[i].oilType);    //挨个取出类别并填入类别数组
+                                   //挨个取出销量并填入销量数组
+                                   // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                   oilData1.push({
+                                       name: result[i].oilType,
+                                       oilTypeID: result[i].oilTypeID,
+                                       value: result[i].stockNumber
+                                   });
+                                   res += parseInt(result[i].stockNumber);
+                               }
+                               barChart1.hideLoading();    //隐藏加载动画
+                               barChart1.setOption({        //加载数据图表
+                                   xAxis: {
+                                       data: names1
+                                   },
+                                   series: [{
+                                       // 根据名字对应到相应的系列
+                                       name: '库存数量',
+                                       data: oilData1
+                                   }]
+                               });
+                           }
+
+                       },
+                       error: function (errorMsg) {
+                           //请求失败时执行该函数
+                           alert("图表请求数据失败!");
+                           barChart.hideLoading();
+                       }
+                   });
+                   $.ajax({
+                       type: "post",
+                       async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                       url: "/stockPie",    //
+                       data: {zqName:a.data.name},
+                       dataType: "json",        //返回数据形式为json
+                       success: function (result) {
+
+                           console.log(result);
+                           //请求成功时执行该函数内容，result即为服务器返回的json对象
+                           if (result) {
+                               for (var i = 0; i < result.length; i++) {
+                                   names.push(result[i].groupName);    //挨个取出类别并填入类别数组
+                                   //挨个取出销量并填入销量数组
+                                   // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                   oilData.push({
+                                       name: result[i].groupName,
+                                       value: result[i].groupTotal,
+                                       nature: result[i].groupNature
+                                   });
+                                   res += parseInt(result[i].groupTotal);
+                               }
+                               pieChart1.hideLoading();    //隐藏加载动画
+                               pieChart1.setOption({        //加载数据图表
+                                   legend: {
+                                       data: names
+                                   },
+                                   series: [{
+                                       // 根据名字对应到相应的系列
+                                       name: '库存数量',
+                                       data: oilData
+                                   }]
+                               });
+                           }
+                       },
+                       error: function (errorMsg) {
+                           //请求失败时执行该函数
+                           alert("图表请求数据失败!");
+                           pieChart1.hideLoading();
+                       }
+                   });
+                   window.onresize = function () {
+                       lineChart.resize();
+                       barChart.resize();
+                       barChart1.resize();
+                       pieChart1.resize();
+                   };
+                   barChart1.on('click', function (a) {
+                       oilData2 = [];
+                       names2 = [];
+                       if(a.data.oilTypeID){
+                           $.ajax({
+                               type: "post",
+                               async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                               url: "/stockColumn",    //
+                               data: {oilTypeID:a.data.oilTypeID,zqName: natureName},
+                               dataType: "json",        //返回数据形式为json
+                               success: function (result) {
+                                   console.log(result);
+                                   console.log(1);
+                                   //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                   if (result) {
+                                       for (var i = 0; i < result.length; i++) {
+                                           names2.push(result[i].oilName);    //挨个取出类别并填入类别数组
+                                           //挨个取出销量并填入销量数组
+                                           // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                           oilData2.push({
+                                               name: result[i].oilName,
+                                               oilID: result[i].oilID,
+                                               value: result[i].stockNumber
+                                           });
+                                           res += parseInt(result[i].stockNumber);
+                                       }
+                                       barChart1.hideLoading();    //隐藏加载动画
+                                       barChart1.setOption({        //加载数据图表
+                                           xAxis: {
+                                               data: names2
+                                           },
+                                           series: [{
+                                               // 根据名字对应到相应的系列
+                                               name: '库存数量',
+                                               data: oilData2
+                                           }]
+                                       });
+                                   }
+
+                               },
+                               error: function (errorMsg) {
+                                   //请求失败时执行该函数
+                                   alert("图表请求数据失败!");
+                                   barChart.hideLoading();
+                               }
+                           });
+                       }else {
+
+                       }
+
+                   });
+			   }
+               else if(a.data.nature == 2){
+                   $("#main2_1").hide();
+                   $("#main2_2").show();
+                   barChart2.resize();
+                   $.ajax({
+                       type: "post",
+                       async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                       url: "/stockColumn",    //
+                       data: {jtName:a.data.name},
+                       dataType: "json",        //返回数据形式为json
+                       success: function (result) {
+                           console.log(result);
+                           //请求成功时执行该函数内容，result即为服务器返回的json对象
+                           if (result) {
+                               for (var i = 0; i < result.length; i++) {
+                                   names1.push(result[i].oilType);    //挨个取出类别并填入类别数组
+                                   //挨个取出销量并填入销量数组
+                                   // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                   oilData1.push({
+                                       name: result[i].oilType,
+                                       oilTypeID: result[i].oilTypeID,
+                                       value: result[i].stockNumber
+                                   });
+                                   res += parseInt(result[i].stockNumber);
+                               }
+                               barChart2.hideLoading();    //隐藏加载动画
+                               barChart2.setOption({        //加载数据图表
+                                   xAxis: {
+                                       data: names1
+                                   },
+                                   series: [{
+                                       // 根据名字对应到相应的系列
+                                       name: '库存数量',
+                                       data: oilData1
+                                   }]
+                               });
+                           }
+
+                       },
+                       error: function (errorMsg) {
+                           //请求失败时执行该函数
+                           alert("图表请求数据失败!");
+                           barChart2.hideLoading();
+                       }
+                   });
+                   $.ajax({
+                       type: "post",
+                       async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                       url: "/stockPie",    //
+                       data: {jtName:a.data.name},
+                       dataType: "json",        //返回数据形式为json
+                       success: function (result) {
+
+                           console.log(result);
+                           //请求成功时执行该函数内容，result即为服务器返回的json对象
+                           if (result) {
+                               for (var i = 0; i < result.length; i++) {
+                                   names.push(result[i].groupName);    //挨个取出类别并填入类别数组
+                                   //挨个取出销量并填入销量数组
+                                   // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                   oilData.push({
+                                       name: result[i].groupName,
+                                       value: result[i].groupTotal,
+                                       nature: result[i].groupNature
+                                   });
+                                   res += parseInt(result[i].groupTotal);
+                               }
+                               pieChart1.hideLoading();    //隐藏加载动画
+                               pieChart1.setOption({        //加载数据图表
+                                   legend: {
+                                       data: names
+                                   },
+                                   series: [{
+                                       // 根据名字对应到相应的系列
+                                       name: '库存数量',
+                                       data: oilData
+                                   }]
+                               });
+                           }
+                       },
+                       error: function (errorMsg) {
+                           //请求失败时执行该函数
+                           alert("图表请求数据失败!");
+                           pieChart1.hideLoading();
+                       }
+                   });
+                   barChart2.on('click', function (a) {
+                       oilData2 = [];
+                       names2 = [];
+                       if(a.data.oilTypeID){
+                           $.ajax({
+                               type: "post",
+                               async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                               url: "/stockColumn",    //
+                               data: {oilTypeID:a.data.oilTypeID,jtName: natureName},
+                               dataType: "json",        //返回数据形式为json
+                               success: function (result) {
+                                   console.log(result);
+                                   console.log(2);
+                                   //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                   if (result) {
+                                       for (var i = 0; i < result.length; i++) {
+                                           names2.push(result[i].oilName);    //挨个取出类别并填入类别数组
+                                           //挨个取出销量并填入销量数组
+                                           // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                           oilData2.push({
+                                               name: result[i].oilName,
+                                               oilID: result[i].oilID,
+                                               value: result[i].stockNumber
+                                           });
+                                           res += parseInt(result[i].stockNumber);
+                                       }
+                                       barChart2.hideLoading();    //隐藏加载动画
+                                       barChart2.setOption({        //加载数据图表
+                                           xAxis: {
+                                               data: names2
+                                           },
+                                           series: [{
+                                               // 根据名字对应到相应的系列
+                                               name: '库存数量',
+                                               data: oilData2
+                                           }]
+                                       });
+                                   }
+
+                               },
+                               error: function (errorMsg) {
+                                   //请求失败时执行该函数
+                                   alert("图表请求数据失败!");
+                                   barChart2.hideLoading();
+                               }
+                           });
+                       }else {
+
+                       }
+
+                   });
+               }
+               else if(a.data.nature == 1){
+                   $("#main2_2").hide();
+                   $("#main2_3").show();
+                   barChart3.resize();
+                   oilData1 = [];
+                   names1 = [];
+                   oilData2 = [];
+                   names2 = [];
+                   $.ajax({
+                       type: "post",
+                       async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                       url: "/stockColumn",    //
+                       data: {ltName:a.data.name},
+                       dataType: "json",        //返回数据形式为json
+                       success: function (result) {
+                           console.log(result);
+                           //请求成功时执行该函数内容，result即为服务器返回的json对象
+                           if (result) {
+                               for (var i = 0; i < result.length; i++) {
+                                   names1.push(result[i].oilType);    //挨个取出类别并填入类别数组
+                                   //挨个取出销量并填入销量数组
+                                   // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                   oilData1.push({
+                                       name: result[i].oilType,
+                                       oilTypeID: result[i].oilTypeID,
+                                       value: result[i].stockNumber
+                                   });
+                                   res += parseInt(result[i].stockNumber);
+                               }
+                               barChart3.hideLoading();    //隐藏加载动画
+                               barChart3.setOption({        //加载数据图表
+                                   xAxis: {
+                                       data: names1
+                                   },
+                                   series: [{
+                                       // 根据名字对应到相应的系列
+                                       name: '库存数量',
+                                       data: oilData1
+                                   }]
+                               });
+                           }
+
+                       },
+                       error: function (errorMsg) {
+                           //请求失败时执行该函数
+                           alert("图表请求数据失败!");
+                           barChart3.hideLoading();
+                       }
+                   });
+                   barChart3.on('click', function (a) {
+
+                       if(a.data.oilTypeID){
+                           $.ajax({
+                               type: "post",
+                               async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                               url: "/stockColumn",    //
+                               data: {oilTypeID:a.data.oilTypeID,ltName: natureName},
+                               dataType: "json",        //返回数据形式为json
+                               success: function (result) {
+                                   console.log(result);
+                                   console.log(3);
+                                   //请求成功时执行该函数内容，result即为服务器返回的json对象
+                                   if (result) {
+                                       oilData2 = [];
+                                       names2 = [];
+                                       for (var i = 0; i < result.length; i++) {
+                                           names2.push(result[i].oilName);    //挨个取出类别并填入类别数组
+                                           //挨个取出销量并填入销量数组
+                                           // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                                           oilData2.push({
+                                               name: result[i].oilName,
+                                               oilID: result[i].oilID,
+                                               value: result[i].stockNumber
+                                           });
+                                           res += parseInt(result[i].stockNumber);
+                                       }
+                                       barChart3.hideLoading();    //隐藏加载动画
+                                       barChart3.setOption({        //加载数据图表
+                                           xAxis: {
+                                               data: names2
+                                           },
+                                           series: [{
+                                               // 根据名字对应到相应的系列
+                                               name: '库存数量',
+                                               data: oilData2
+                                           }]
+                                       });
+                                   }
+
+                               },
+                               error: function (errorMsg) {
+                                   //请求失败时执行该函数
+                                   alert("图表请求数据失败!");
+                                   barChart3.hideLoading();
+                               }
+                           });
+                       }else {
+
+                       }
+
+                   });
+                   // $.ajax({
+                   //     type: "post",
+                   //     async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                   //     url: "/stockPie",    //
+                   //     data: {jtName:a.data.name},
+                   //     dataType: "json",        //返回数据形式为json
+                   //     success: function (result) {
+				   //
+                   //         console.log(result);
+                   //         //请求成功时执行该函数内容，result即为服务器返回的json对象
+                   //         if (result) {
+                   //             for (var i = 0; i < result.length; i++) {
+                   //                 names.push(result[i].groupName);    //挨个取出类别并填入类别数组
+                   //                 //挨个取出销量并填入销量数组
+                   //                 // a+=result[i].date+'余量为'+result[i].size+'公斤';
+                   //                 oilData.push({
+                   //                     name: result[i].groupName,
+                   //                     value: result[i].groupTotal,
+                   //                     nature: result[i].groupNature
+                   //                 });
+                   //                 res += parseInt(result[i].groupTotal);
+                   //             }
+                   //             pieChart1.hideLoading();    //隐藏加载动画
+                   //             pieChart1.setOption({        //加载数据图表
+                   //                 legend: {
+                   //                     data: names
+                   //                 },
+                   //                 series: [{
+                   //                     // 根据名字对应到相应的系列
+                   //                     name: '库存数量',
+                   //                     data: oilData
+                   //                 }]
+                   //             });
+                   //         }
+                   //     },
+                   //     error: function (errorMsg) {
+                   //         //请求失败时执行该函数
+                   //         alert("图表请求数据失败!");
+                   //         pieChart1.hideLoading();
+                   //     }
+                   // });
+               }
+				// var name = a.name;
+				// if(!flagPie) {
+				// 	flagPie = true;
+				// 	flagBar = false;
+				// $('#pieChart').text(name+'各集团军存量');
+				// pieChart1.setOption({
+				// 	legend:{
+				// 		data:[
+				// 			'集团军1',
+				// 			'集团军2',
+				// 			'集团军3',
+				// 			'集团军4',
+				// 			'集团军5'
+				// 		]
+				// 	},
+				// 	series:{
+				// 		data:[
+				// 			{
+				// 				name:'集团军1',
+				// 				value:453
+				// 			},
+				// 			{
+				// 				name:'集团军2',
+				// 				value:320
+				// 			},
+				// 			{
+				// 				name:'集团军3',
+				// 				value:562
+				// 			},
+				// 			{
+				// 				name:'集团军4',
+				// 				value:1099
+				// 			},
+				// 			{
+				// 				name:'集团军5',
+				// 				value:699
+				// 			}]
+				// 	}
+				// });
+				$('#barChart').text(name+'各附油存量（大类）');
+				barChart.setOption({
+					xAxis:{
+						data:[
+
+						]
+					},
+					series: [{
+						data:[]
+
+					}]
+				})
+
+			});
+			barChart.on('click',function(a){
+				var name = a.name;
+				if(!flagBar){
+					flagBar=true;
+					flagPie=false;
+				$('#barChart').text(name+'各品类存量');
+				console.log(a);
+				barChart.setOption({
+					 xAxis:{
+						 data:[
+
+						 ]
+					 },
+					 series: [{
+						 data:[]
+					 }]
+				})
+				}
+			});
+			lineChart.on('click',function(a){
+				console.log(a)
+			});
+            window.onresize = function () {
+                lineChart.resize();
+                barChart1.resize();
+                pieChart1.resize();
+            }
+		</script>
+	</div><!-- /.row -->
+	<!-- /.main-container-inner -->
+</div>
+<!-- /.main-container -->
+</body>
+</html>
+

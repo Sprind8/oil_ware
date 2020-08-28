@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据测试</title>
+</head>
+<body>
+
+<h1> 用户删除</h1>
+<form action="/userDelete" method="post">
+    请输入删除的ID:<input type="text" name="userID" /></br>
+    <input type="submit" value="删除">
+</form>
+
+<h1> 用户更新</h1>
+<form action="/userUpdate" method="post">
+    请输入更新ID:<input type="text" name="userID" /></br>
+    请输入所属组织ID:<input type="text" name="groupID" /></br>
+    请输入用户账户:<input type="text" name="userAcount" /></br>
+    请输入密码:<input type="text" name="userPassword" /></br>
+    请输入代号:<input type="text" name="userCode" /></br>
+    请输入姓名:<input type="text" name="userName" /></br>
+    请输入权力数组:<input type="text" name="powerCodeWeb" /></br>
+    <input type="submit" value="提交">
+</form>
+
+<h1> 用户增添</h1>
+<form action="/userAdd" method="post">
+    请输入所属组织ID:<input type="text" name="groupID" /></br>
+    请输入用户账户:<input type="text" name="userAcount" /></br>
+    请输入密码:<input type="text" name="userPassword" /></br>
+    请输入权力数组:<input type="text" name="powerCodeWeb" /></br>
+    <input type="submit" value="提交">
+</form>
+
+<h1> 按组织机构查询</h1>
+<form action="/groupCheck" method="get">
+    请输入所属旅团:<input type="text" name="ltName" /></br>
+    请输入所属军团:<input type="text" name="jtName" /></br>
+    请输入所属战区:<input type="text" name="zqName" /></br>
+    <input type="submit" value="提交">
+</form>
+
+<h1> 油料种类删除</h1>
+<form action="/oilTypeDelete" method="get">
+    请输入油料品种名称:<input type="text" name="oilTypeID" /></br>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>
